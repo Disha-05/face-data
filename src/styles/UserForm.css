@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+
+.user-form-card {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+    background-color: #ffd700;
+    padding: 30px;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .heading-image {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+  }
+
+  .user-form-heading {
+     display: flex;
+     flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+  }
+
+  .user-form-heading h2 {
+    color: #fff;
+    
+  }
+
+  @media (min-width: 768px) {
+    .user-form-card {
+      flex-direction: row;
+      justify-content: center;
+    }
+  
+    .user-form-heading {
+      margin-right: 20px;
+    }
+  
+    .user-form {
+      max-width: 400px;
+    }
+  }
+  
+  .user-form-heading h2 {
+    color: #fff;
+  }
+  
+  .user-form {
+    
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+    width: 200px;
+  }
+  
+  
+  .form-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 16px;
+  }
+  
+  label input[type=radio] {
+    opacity: 0;
+}
+  
+  .radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .radio-label input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  .radio-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    /* border-radius: 50%;
+    border: 2px solid #ccc; */
+    cursor: pointer;
+  }
+  
+  
+  
+  .radio-button .gender-icon {
+    font-size: 24px;
+margin-right: 5px;
+  }
+  
+  .submit-button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #555;
+  }
+/* Existing styles */
+
+.gender-icon {
+    font-size: 24px;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .gender-icon.selected {
+    color: #ffd700;
+  }
+    
