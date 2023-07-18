@@ -11,7 +11,7 @@ const RecordVideo = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [showFaceMetric, setShowFaceMetric] = useState(false);
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
-
+  const [capturedImages, setCapturedImages] = useState([]);
 
   const handleNextMetric = () => {
     setCurrentMetricIndex((prevIndex) => {
@@ -19,15 +19,27 @@ const RecordVideo = () => {
       if (nextIndex === 0) {
         setShowFaceMetric(false);
         mediaRecorderRef.current.stop(); // Stop recording after all face metrics
+        captureImage(); // Capture an image when all metrics are completed
       } else {
         // Show toast message for the next face metric
         toast.info(faceMetrics[nextIndex], {
           autoClose: 3000,
           position: toast.POSITION.TOP_CENTER
         });
+        captureImage(); // Capture an image when moving to the next metric
       }
       return nextIndex;
     });
+  };
+
+  const captureImage = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const image = canvas.toDataURL('image/png');
+    setCapturedImages((prevImages) => [...prevImages, image]);
   };
 
 
@@ -114,6 +126,14 @@ const RecordVideo = () => {
       <button onClick={handleNextMetric} disabled={!isRecording}>
         Next Metric
       </button>
+      {capturedImages.length > 0 && (
+        <div>
+          {capturedImages.map((image, index) => (
+            <img key={index} src={image} alt={`Captured ${index + 1}`} />
+          ))}
+          <button onClick={handleSubmitVideo}>Submit Video</button>
+        </div>
+      )}
       <ToastContainer /> {/* Add the ToastContainer component */}
     </div>
   );
