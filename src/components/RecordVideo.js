@@ -45,17 +45,18 @@ const RecordVideo = () => {
 
   const handleStartRecording = () => {
     setShowFaceMetric(true);
-    setCurrentMetricIndex(0); // Reset the current metric index to start from the front
-    chunksRef.current = []; // Clear the chunksRef
-    setRecordedVideo(null); // Clear the recorded video URL
-
+    setCurrentMetricIndex(0);
+    chunksRef.current = [];
+    setRecordedVideo(null);
+    setCapturedImages([]);
+  
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
         videoRef.current.srcObject = stream;
         mediaRecorderRef.current = new MediaRecorder(stream);
         setMediaStream(stream);
-
+  
         mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
         mediaRecorderRef.current.addEventListener('stop', handleSaveVideo);
         mediaRecorderRef.current.start();
@@ -113,7 +114,7 @@ const RecordVideo = () => {
       ) : (
         <button disabled>Recording...</button>
       )}
-      {recordedVideo && (
+      {recordedVideo && !isRecording && (
         <div>
           <video src={recordedVideo} controls />
           <button onClick={handleSubmitVideo}>Submit Video</button>
@@ -122,11 +123,11 @@ const RecordVideo = () => {
       {showFaceMetric && (
         <div className="face-metric-card">{faceMetrics[currentMetricIndex]}</div>
       )}
-
+  
       <button onClick={handleNextMetric} disabled={!isRecording}>
         Next Metric
       </button>
-      {capturedImages.length > 0 && (
+      {capturedImages.length > 0 && !isRecording && (
         <div>
           {capturedImages.map((image, index) => (
             <img key={index} src={image} alt={`Captured ${index + 1}`} />
@@ -134,7 +135,7 @@ const RecordVideo = () => {
           <button onClick={handleSubmitVideo}>Submit Video</button>
         </div>
       )}
-      <ToastContainer /> {/* Add the ToastContainer component */}
+      <ToastContainer />
     </div>
   );
 };
