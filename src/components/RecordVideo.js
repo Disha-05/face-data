@@ -12,6 +12,25 @@ const RecordVideo = () => {
   const [showFaceMetric, setShowFaceMetric] = useState(false);
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
 
+
+  const handleNextMetric = () => {
+    setCurrentMetricIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % faceMetrics.length;
+      if (nextIndex === 0) {
+        setShowFaceMetric(false);
+        mediaRecorderRef.current.stop(); // Stop recording after all face metrics
+      } else {
+        // Show toast message for the next face metric
+        toast.info(faceMetrics[nextIndex], {
+          autoClose: 3000,
+          position: toast.POSITION.TOP_CENTER
+        });
+      }
+      return nextIndex;
+    });
+  };
+
+
   const handleStartRecording = () => {
     setShowFaceMetric(true);
     setCurrentMetricIndex(0); // Reset the current metric index to start from the front
@@ -63,29 +82,13 @@ const RecordVideo = () => {
   const faceMetrics = ['Front', 'Up', 'Down', 'Left', 'Right', 'With Mask', 'With Spectacles'];
 
   useEffect(() => {
-    let intervalId;
     if (isRecording) {
-      intervalId = setInterval(() => {
-        setCurrentMetricIndex((prevIndex) => {
-          const nextIndex = prevIndex + 1;
-          if (nextIndex === faceMetrics.length) {
-            clearInterval(intervalId);
-            setShowFaceMetric(false);
-            mediaRecorderRef.current.stop(); // Stop recording after all face metrics
-          } else {
-            // Show toast message for the current face metric
-            toast.info(faceMetrics[nextIndex], {
-              autoClose: 3000, // Automatically close the toast after 3 seconds
-              position: toast.POSITION.TOP_CENTER // Set the position of the toast
-            });
-          }
-          return nextIndex % faceMetrics.length;
-        });
-      }, 3000);
+      // Show initial toast message for the first face metric
+      toast.info(faceMetrics[currentMetricIndex], {
+        autoClose: 3000,
+        position: toast.POSITION.TOP_CENTER
+      });
     }
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [isRecording]);
 
   return (
@@ -107,6 +110,10 @@ const RecordVideo = () => {
       {showFaceMetric && (
         <div className="face-metric-card">{faceMetrics[currentMetricIndex]}</div>
       )}
+
+      <button onClick={handleNextMetric} disabled={!isRecording}>
+        Next Metric
+      </button>
       <ToastContainer /> {/* Add the ToastContainer component */}
     </div>
   );
