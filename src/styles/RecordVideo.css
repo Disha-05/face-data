@@ -1,0 +1,132 @@
+.record-video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .video-preview {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .record-button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f44336;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .record-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .recorded-video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .recorded-video {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .face-metric-card {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .next-metric-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2196f3;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .next-metric-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .captured-images-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .captured-image {
+    width: 200px;
+    height: auto;
+    margin: 10px;
+    border-radius: 4px;
+  }
+  
+/* Toast container */
+.ToastContainer {
+    z-index: 9999;
+  }
+  
+  /* Toast body */
+  .Toastify__toast {
+    font-family: Arial, sans-serif;
+    font-size: 16px; /* Increase the font size */
+    border-radius: 4px;
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.5); /* Set the background color with transparency */
+  }
+  
+  /* Toast position */
+  .Toastify__toast-container--top-center {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  /* Remove the info symbol */
+  .Toastify__toast--info .Toastify__toast-body:before {
+    display: none;
+  }
+  
+  /* Remove the close button */
+  .Toastify__toast-close-button {
+    display: none;
+  }
