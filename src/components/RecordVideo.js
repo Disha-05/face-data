@@ -33,6 +33,7 @@ const RecordVideo = () => {
       setShowFaceMetric(false);
       mediaRecorderRef.current.stop();
       captureImage();
+      
     } else {
       if (currentToastId) {
         toast.dismiss(currentToastId);
@@ -58,7 +59,10 @@ const RecordVideo = () => {
       setCurrentToastMessage(toastMessage);
       captureImage();
     }
-    return nextIndex;
+    if(nextIndex!==0){
+      return nextIndex;
+    }
+    
   });
 };
 
@@ -165,7 +169,17 @@ const RecordVideo = () => {
     }
   }, [isRecording, currentMetricIndex]);
   
-
+  useEffect(() => {	
+    navigator.mediaDevices	
+      .getUserMedia({ video: true })	
+      .then((stream) => {	
+        videoRef.current.srcObject = stream;	
+      })	
+      .catch((error) => {	
+        console.error('Error accessing camera:', error);	
+      });	
+  }, []);
+  
   return (
     <div className="record-video-container">
       <div className="video-container">

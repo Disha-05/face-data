@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-top: 2px solid #ccc;
+  }
+  
+  .logo-container {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .logo {
+    height: 150px;
+    margin-right: 10px;
+    padding-left: 20px;
+  }
+  
+  .organization-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .organization-name {
+    font-size: 30px; /* Increased font size for better visibility */
+    margin: 0;
+    text-align: center;
+  }
+  
+  .address {
+    font-size: 16px; /* Increased font size for better visibility */
+    margin: 0;
+    text-align: center;
+  }
+
+  
+  
+  /* Responsive Styles */
+
+@media (max-width: 768px) {
+  .logo {
+    height: 70px;
+    margin-right: 0;
+    padding-left: 0;
+  }
+
+  .organization-name {
+    font-size: 20px;
+  }
+
+  .address {
+    font-size: 12px;
+  }
+}
