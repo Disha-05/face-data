@@ -4,10 +4,11 @@
   background-color: #f0f0f0;
   padding: 20px;
   text-align: center;
-  position: fixed;
+  /* position: fixed; */
   left: 0;
   bottom: 0;
-  width: 100%;
+  /* width: 100%; */
+  margin-top: 30px;
 }
 
 .footer-text {

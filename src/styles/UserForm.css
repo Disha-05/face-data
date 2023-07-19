@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 30px;
+  margin-top: 15px;
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -135,7 +136,9 @@ h1 {
     max-width: 350px;
     width: 100%;
   }
-
+.user-form h1{
+  font-size: 20px;
+}
   .flex-container {
     flex-wrap: wrap;
     justify-content: space-between;
@@ -144,9 +147,16 @@ h1 {
   .form-label {
     width: 100%;
     margin-bottom: 10px;
+    font-size: 15px;
   }
 
   .form-input {
     width: 100%;
+    font-size: 15px;
+  }
+
+  .radio-label {
+    margin-right: 6px; /* Adjusted margin for mobile */
+    font-size: 12px; /* Adjusted font size for mobile */
   }
 }

@@ -54,7 +54,7 @@
   }
   
   .record-button:disabled {
-    background-color: #ccc;
+    background-color: rgba(204, 204, 204, 0.5);
     cursor: not-allowed;
   }
   
@@ -151,3 +151,21 @@
   .Toastify__toast-close-button {
     display: none;
   }
+
+  /* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .record-video-container {
+    margin: 20px;
+    margin-bottom: 40px;
+    padding: 20px;
+  }
+
+  .face-metric-card {
+    font-size: 16px;
+  }
+
+  .next-metric-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

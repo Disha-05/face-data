@@ -73,7 +73,7 @@ const UserForm = () => {
 
     if (valid) {
       console.log(formData);
-      navigate('/data', { state: formData });
+      navigate('/rec', { state: formData });
     } else {
       setFormErrors(errors);
     }
