@@ -17,8 +17,9 @@ const DataCollection = () => {
         <li>Name: {formData.name}</li>
         <li>Age: {formData.age}</li>
         <li>Sex: {formData.sex}</li>
+        <li>State:{formData.state}</li>
         <li>Religion: {formData.religion}</li>
-        <li>Address: {formData.address}</li>
+        <li>Language: {formData.language}</li>
       </ul>
     </div>
   );
