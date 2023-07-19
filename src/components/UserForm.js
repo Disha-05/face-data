@@ -15,6 +15,16 @@ const UserForm = () => {
     language: '',
   });
 
+  const [formErrors, setFormErrors] = useState({
+    nameError: '',
+    ageError: '',
+    sexError: '',
+    stateError: '',
+    religionError: '',
+    languageError: '',
+  });
+
+
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -27,8 +37,45 @@ const UserForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    navigate('/data', { state: formData });
+    let valid = true;
+    const errors = {};
+
+    if (formData.name.trim() === '') {
+      errors.nameError = 'Name is required';
+      valid = false;
+    }
+
+    if (formData.age === '') {
+      errors.ageError = 'Age is required';
+      valid = false;
+    }
+
+    if (formData.sex === '') {
+      errors.sexError = 'Sex is required';
+      valid = false;
+    }
+
+    if (formData.state === '') {
+      errors.stateError = 'State is required';
+      valid = false;
+    }
+
+    if (formData.religion === '') {
+      errors.religionError = 'Religion is required';
+      valid = false;
+    }
+
+    if (formData.language === '') {
+      errors.languageError = 'Language is required';
+      valid = false;
+    }
+
+    if (valid) {
+      console.log(formData);
+      navigate('/data', { state: formData });
+    } else {
+      setFormErrors(errors);
+    }
   };
 
   const renderAgeOptions = () => {
@@ -102,7 +149,9 @@ const UserForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            required
           />
+          {formErrors.nameError && <span className="error-message">{formErrors.nameError}</span>}
         </label>
         <br />
         <label className="form-label">
@@ -113,10 +162,12 @@ const UserForm = () => {
             name="age"
             value={formData.age}
             onChange={handleChange}
+            required
           >
             <option value="">Select Age</option>
             {renderAgeOptions()}
           </select>
+          {formErrors.ageError && <span className="error-message">{formErrors.ageError}</span>}
         </label>
         <br />
         <label className="form-label">
@@ -162,6 +213,7 @@ const UserForm = () => {
       <FaGenderless className={`gender-icon ${formData.sex === 'other' ? 'selected' : ''}`} />
     </span>
     Other
+    {formErrors.sexError && <span className="error-message">{formErrors.sexError}</span>}
   </label>
 </div>
 <br />
@@ -172,6 +224,7 @@ const UserForm = () => {
             name="state"
             value={formData.state}
             onChange={handleChange}
+            required
           >
             <option value="">Select State</option>
             {stateOptions.map((state) => (
@@ -180,6 +233,7 @@ const UserForm = () => {
               </option>
             ))}
           </select>
+          {formErrors.stateError && <span className="error-message">{formErrors.stateError}</span>}
         </label>
         <br />
         <label className="form-label">
@@ -189,6 +243,7 @@ const UserForm = () => {
             name="religion"
             value={formData.religion}
             onChange={handleChange}
+            required
           >
             <option value="">Select Religion</option>
             {religionOptions.map((religion) => (
@@ -197,6 +252,7 @@ const UserForm = () => {
               </option>
             ))}
           </select>
+          {formErrors.religionError && <span className="error-message">{formErrors.religionError}</span>}
         </label>
         <br />
         <label className="form-label">
@@ -206,6 +262,7 @@ const UserForm = () => {
             name="language"
             value={formData.language}
             onChange={handleChange}
+            required
           >
             <option value="">Select Language</option>
             {languageOptions.map((language) => (
@@ -214,6 +271,7 @@ const UserForm = () => {
               </option>
             ))}
           </select>
+          {formErrors.languageError && <span className="error-message">{formErrors.languageError}</span>}
         </label>
         <br />
         <button type="submit" className="submit-button">
