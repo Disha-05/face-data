@@ -48,15 +48,15 @@
     font-size: 16px;
     border: none;
     border-radius: 4px;
-    background-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.5);
     color: #fff;
     cursor: pointer;
   }
   
   .record-button:disabled {
-    background-color: rgba(204, 204, 204, 0.5);
-    cursor: not-allowed;
-  }
+  background-color: rgba(204, 204, 204, 0.5);
+  cursor: not-allowed;
+}
   
   .recorded-video-container {
     display: flex;
@@ -167,5 +167,10 @@
   .next-metric-button {
     padding: 8px 16px;
     font-size: 14px;
+  }
+
+  .record-button {
+    
+    font-size: 12px;
   }
 }

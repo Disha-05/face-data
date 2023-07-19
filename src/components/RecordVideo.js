@@ -3,10 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/RecordVideo.css';
 
-
-
 const RecordVideo = () => {
-
   // Import the SpeechRecognition API
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -20,52 +17,27 @@ const RecordVideo = () => {
   const [showFaceMetric, setShowFaceMetric] = useState(false);
   const [currentMetricIndex, setCurrentMetricIndex] = useState(0);
   const [capturedImages, setCapturedImages] = useState([]);
-  const [currentToastId, setCurrentToastId] = useState(null);
   const [isRecordingStarted, setIsRecordingStarted] = useState(false);
-  const [currentToastMessage, setCurrentToastMessage] = useState('');
-
-
 
   const handleNextMetric = () => {
-  setCurrentMetricIndex((prevIndex) => {
-    const nextIndex = (prevIndex + 1) % faceMetrics.length;
-    if (nextIndex === 0) {
-      setShowFaceMetric(false);
-      mediaRecorderRef.current.stop();
-      captureImage();
-      
-    } else {
-      if (currentToastId) {
-        toast.dismiss(currentToastId);
+    setCurrentMetricIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % faceMetrics.length;
+      if (nextIndex === 0) {
+        setShowFaceMetric(false);
+        mediaRecorderRef.current.stop();
+        captureImage();
+      } else {
+        const toastMessage = faceMetrics[nextIndex];
+        const speech = new SpeechSynthesisUtterance(toastMessage);
+        window.speechSynthesis.speak(speech);
+        captureImage();
       }
-
-      const toastMessage = faceMetrics[nextIndex];
-
-      // Speak out the toast message
-      recognition.onresult = (event) => {
-        const result = event.results[0][0].transcript.toLowerCase();
-        if (result.includes('next') || result.includes('continue')) {
-          handleNextMetric();
-        }
-      };
-      const speech = new SpeechSynthesisUtterance(toastMessage);
-      window.speechSynthesis.speak(speech);
-
-      const toastId = toast.info(toastMessage, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
-      });
-      setCurrentToastId(toastId);
-      setCurrentToastMessage(toastMessage);
-      captureImage();
-    }
-    if(nextIndex!==0){
-      return nextIndex;
-    }
-    
-  });
-};
-
+      if(nextIndex!==0){
+        return nextIndex;
+      }
+      
+    });
+  };
 
   const captureImage = () => {
     const canvas = document.createElement('canvas');
@@ -83,9 +55,6 @@ const RecordVideo = () => {
     chunksRef.current = [];
     setRecordedVideo(null);
     setCapturedImages([]);
-
-    // Remove any existing toasts before starting recording
-    toast.dismiss();
 
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -118,68 +87,48 @@ const RecordVideo = () => {
       setRecordedVideo(videoUrl);
     }
 
-    setIsRecording(false); // Reset the recording state
-    setShowFaceMetric(false); // Hide the face metric card
-    setCurrentMetricIndex(0); // Reset the current metric index
-    setMediaStream(null); // Clear the media stream
-    chunksRef.current = []; // Clear the chunksRef
+    setIsRecording(false);
+    setShowFaceMetric(false);
+    setCurrentMetricIndex(0);
+    setMediaStream(null);
+    chunksRef.current = [];
   };
 
   const handleSubmitVideo = () => {
-    alert('Video submitted!'); // Show the alert for video submission
-  
-    // Speak out the submission confirmation
+    toast.success('Video submitted!', { toastStyle: { className: 'custom-toast' }, position: 'top-right', style: { top: '50px' }, autoClose: 3500 });
+
+
+
     const confirmationMessage = 'Video submitted!';
     const speech = new SpeechSynthesisUtterance(confirmationMessage);
     window.speechSynthesis.speak(speech);
   };
-  
 
   const faceMetrics = ['Look Front', 'Look Up', 'Look Down', 'Look Left', 'Look Right', 'Put your mask on', 'Put your spectacles on'];
 
   useEffect(() => {
     if (isRecording && currentMetricIndex === 0) {
       const toastMessage = faceMetrics[currentMetricIndex];
-  
-      // Speak out the toast message
       const speech = new SpeechSynthesisUtterance(toastMessage);
       window.speechSynthesis.speak(speech);
-  
-      recognition.onresult = (event) => {
-        const result = event.results[0][0].transcript.toLowerCase();
-        if (result.includes('next') || result.includes('continue')) {
-          handleNextMetric();
-        }
-      };
       recognition.start();
-  
-      const toastId = toast.info(toastMessage, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
-      });
-      setCurrentToastId(toastId);
-      setCurrentToastMessage(toastMessage);
-  
       return () => {
-        if (currentToastId) {
-          toast.dismiss(currentToastId);
-        }
         recognition.stop();
       };
     }
   }, [isRecording, currentMetricIndex]);
-  
-  useEffect(() => {	
-    navigator.mediaDevices	
-      .getUserMedia({ video: true })	
-      .then((stream) => {	
-        videoRef.current.srcObject = stream;	
-      })	
-      .catch((error) => {	
-        console.error('Error accessing camera:', error);	
-      });	
+
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        videoRef.current.srcObject = stream;
+      })
+      .catch((error) => {
+        console.error('Error accessing camera:', error);
+      });
   }, []);
-  
+
   return (
     <div className="record-video-container">
       <div className="video-container">
@@ -205,12 +154,9 @@ const RecordVideo = () => {
       {recordedVideo && !isRecording && (
         <div className="recorded-video-container">
           <video src={recordedVideo} controls className="recorded-video" />
-          
         </div>
       )}
-      {showFaceMetric && (
-        <div className="face-metric-card">{faceMetrics[currentMetricIndex]}</div>
-      )}
+      {showFaceMetric && <div className="face-metric-card">{faceMetrics[currentMetricIndex]}</div>}
       {isRecordingStarted && (
         <button className="next-metric-button" onClick={handleNextMetric} disabled={!isRecording}>
           Capture
@@ -226,7 +172,8 @@ const RecordVideo = () => {
           </button>
         </div>
       )}
-      <ToastContainer />
+      <ToastContainer position="top-right" style={{ top: '50px' }} />
+
     </div>
   );
 };

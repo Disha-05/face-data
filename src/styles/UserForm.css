@@ -30,6 +30,7 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  
 }
 
 h1 {
@@ -160,3 +161,15 @@ h1 {
     font-size: 12px; /* Adjusted font size for mobile */
   }
 }
+
+@media (min-width: 500px) {
+  .user-form-card {
+    margin: 15px 100px 0px;
+  }
+
+  .user-form {
+    
+    width: 450px;
+  }
+}
+
