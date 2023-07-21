@@ -5,8 +5,9 @@ import { FaMale, FaFemale, FaGenderless } from 'react-icons/fa';
 import boy from '../assets/boy.png';
 import girl from '../assets/girl.png';
 import igdtuw from '../assets/igdtuw.png';
+import axios from 'axios';
 
-const UserForm = () => {
+const UserForm = (props) => {
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -70,13 +71,32 @@ const UserForm = () => {
       errors.languageError = 'Language is required';
       valid = false;
     }
-
     if (valid) {
-      console.log(formData);
-      navigate('/rec', { state: formData });
+      navigate('/rec', { state: { formData } }); // Navigate to RecordVideo with form data as props
     } else {
       setFormErrors(errors);
     }
+    // if (valid) {
+    //   axios
+    //   .post('http://localhost:8082/api/formDataRoutes', formData)
+    //   .then((res) => {
+    //     setFormData({
+    //       name: '',
+    //       age: '',
+    //       sex: '',
+    //       state:'',
+    //       religion: '',
+    //       language: '',
+    //     });
+    //     navigate('/data', { state: formData });
+    //   }).catch((err) => {
+    //     console.log('Error in CreateBook!');
+    //   });
+    //   // console.log(formData);
+    //   // navigate('/rec', { state: formData });
+    // } else {
+    //   setFormErrors(errors);
+    // }
   };
 
   const renderAgeOptions = () => {

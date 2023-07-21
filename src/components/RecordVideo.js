@@ -1,10 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/RecordVideo.css';
+import axios from 'axios';
 
 const RecordVideo = () => {
   // Import the SpeechRecognition API
+  const location = useLocation();
+  const navigate = useNavigate();
+  const formData = location.state?.formData || {};
+
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
 
@@ -95,13 +101,37 @@ const RecordVideo = () => {
   };
 
   const handleSubmitVideo = () => {
+
     toast.success('Video submitted!', { toastStyle: { className: 'custom-toast' }, position: 'top-right', style: { top: '50px' }, autoClose: 3500 });
 
+    const dataToSend = {
+      ...formData,
+      recordedVideoUrl: recordedVideo,
+      capturedImages,
+    };
 
+    axios
+      .post('http://localhost:8082/api/formDataRoutes', dataToSend)
+      .then((res) => {
+        // Handle successful response
+        // setFormData({
+        //   name: '',
+        //   age: '',
+        //   sex: '',
+        //   state: '',
+        //   religion: '',
+        //   language: '',
+        // });
+        // navigate('/data', { state: formData });
+      })
+      .catch((err) => {
+        console.log('Error in Form Data Collection!');
+      });
 
     const confirmationMessage = 'Video submitted!';
     const speech = new SpeechSynthesisUtterance(confirmationMessage);
     window.speechSynthesis.speak(speech);
+    navigate('/');
   };
 
   const faceMetrics = ['Look Front', 'Look Up', 'Look Down', 'Look Left', 'Look Right', 'Put your mask on', 'Put your spectacles on'];
