@@ -8,8 +8,8 @@ const formDataSchema = new mongoose.Schema({
   state: { type: String, required: true },
   religion: { type: String, required: true },
   language: { type: String, required: true },
-  recordedVideoUrl: { type: String }, // New field for recorded video URL
-  capturedImages: [{ type: String }], // New field for an array of captured image URLs
+  recordedVideoUrl: { type: String },
+  capturedImages: [{ type: String }],
 });
 
 const FormData = mongoose.model('FormData', formDataSchema);
