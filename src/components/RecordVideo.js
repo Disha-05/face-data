@@ -139,7 +139,13 @@ const RecordVideo = () => {
     const dataToSend = {
       ...formData,
       recordedVideoUrl: videoString,
-      capturedImages,
+      lookFrontMetric: capturedImages[0] ,
+      lookUpMetric: capturedImages[1],
+      lookDownMetric: capturedImages[2],
+      lookLeftMetric: capturedImages[3],
+      lookRightMetric: capturedImages[4],
+      maskOnMetric: capturedImages[5],
+      spectaclesOnMetric: capturedImages[6],
     };
 
     axios
