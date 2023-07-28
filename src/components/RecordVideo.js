@@ -92,7 +92,6 @@ const RecordVideo = () => {
     if (chunksRef.current.length > 0) {
       const recordedBlob = new Blob(chunksRef.current, { type: chunksRef.current[0].type });
       const videoUrl = URL.createObjectURL(recordedBlob);
-      setRecordedVideo(videoUrl);
   
       const blobToBase64 = (videoUrl) => {
         return new Promise(async (resolve, _) => {
@@ -113,12 +112,13 @@ const RecordVideo = () => {
           };
         });
       };
+
   
       // Using an IIFE to use await inside a non-async function
       (async () => {
         const base64String = await blobToBase64(videoUrl);
         console.log(base64String); // i.e: data:image/jpeg;base64,/9j/4AAQSkZJ..
-        setVideoString(base64String);
+  
       
       })();
     }
@@ -158,7 +158,7 @@ const RecordVideo = () => {
       .catch((err) => {
         console.log('Error in Form Data Collection!');
       });
-
+  
     const confirmationMessage = 'Video submitted!';
     const speech = new SpeechSynthesisUtterance(confirmationMessage);
     window.speechSynthesis.speak(speech);
