@@ -91,14 +91,43 @@ const RecordVideo = () => {
       const recordedBlob = new Blob(chunksRef.current, { type: chunksRef.current[0].type });
       const videoUrl = URL.createObjectURL(recordedBlob);
       setRecordedVideo(videoUrl);
+  
+      const blobToBase64 = (videoUrl) => {
+        return new Promise(async (resolve, _) => {
+          // do a request to the blob uri
+          const response = await fetch(videoUrl);
+  
+          // response has a method called .blob() to get the blob file
+          const blob = await response.blob();
+  
+          // instantiate a file reader
+          const fileReader = new FileReader();
+  
+          // read the file
+          fileReader.readAsDataURL(blob);
+  
+          fileReader.onloadend = function () {
+            resolve(fileReader.result); // Here is the base64 string
+          };
+        });
+      };
+  
+      // Using an IIFE to use await inside a non-async function
+      (async () => {
+        const base64String = await blobToBase64(videoUrl);
+        console.log(base64String); // i.e: data:image/jpeg;base64,/9j/4AAQSkZJ..
+  
+      
+      })();
     }
-
+  
     setIsRecording(false);
     setShowFaceMetric(false);
     setCurrentMetricIndex(0);
     setMediaStream(null);
     chunksRef.current = [];
   };
+  
 
   const handleSubmitVideo = () => {
 
