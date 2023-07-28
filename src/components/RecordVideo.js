@@ -18,6 +18,7 @@ const RecordVideo = () => {
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
   const [recordedVideo, setRecordedVideo] = useState(null);
+  const [videoString, setVideoString]=useState(null);
   const [mediaStream, setMediaStream] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [showFaceMetric, setShowFaceMetric] = useState(false);
@@ -61,6 +62,7 @@ const RecordVideo = () => {
     chunksRef.current = [];
     setRecordedVideo(null);
     setCapturedImages([]);
+    setVideoString(null);
 
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -116,7 +118,7 @@ const RecordVideo = () => {
       (async () => {
         const base64String = await blobToBase64(videoUrl);
         console.log(base64String); // i.e: data:image/jpeg;base64,/9j/4AAQSkZJ..
-  
+        setVideoString(base64String);
       
       })();
     }
@@ -135,7 +137,7 @@ const RecordVideo = () => {
 
     const dataToSend = {
       ...formData,
-      recordedVideoUrl: recordedVideo,
+      recordedVideoUrl: videoString,
       capturedImages,
     };
 
