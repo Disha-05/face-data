@@ -9,6 +9,13 @@ const formDataSchema = new mongoose.Schema({
   religion: { type: String, required: true },
   language: { type: String, required: true },
   recordedVideoUrl: { type: String },
+  // lookFrontMetric: { type: String },
+  // lookUpMetric: { type: String },
+  // lookDownMetric: { type: String },
+  // lookLeftMetric: { type: String },
+  // lookRightMetric: { type: String },
+  // maskOnMetric: { type: String },
+  // spectaclesOnMetric: { type: String },
   capturedImages: [{ type: String }],
 });
 
