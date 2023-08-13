@@ -6,6 +6,7 @@ const formDataSchema = new mongoose.Schema({
   age: { type: Number, required: true },
   sex: { type: String, required: true },
   state: { type: String, required: true },
+  aadhaarNo:{type: String, required: true},
   religion: { type: String, required: true },
   language: { type: String, required: true },
   recordedVideoUrl: { type: String },

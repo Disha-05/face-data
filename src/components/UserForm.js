@@ -12,6 +12,7 @@ const UserForm = (props) => {
     name: '',
     age: '',
     sex: '',
+    aadhaarNo:'',
     state:'',
     religion: '',
     language: '',
@@ -21,6 +22,7 @@ const UserForm = (props) => {
     nameError: '',
     ageError: '',
     sexError: '',
+    aadhaarNoError:'',
     stateError: '',
     religionError: '',
     languageError: '',
@@ -47,6 +49,7 @@ const UserForm = (props) => {
       valid = false;
     }
 
+
     if (formData.age === '') {
       errors.ageError = 'Age is required';
       valid = false;
@@ -57,10 +60,16 @@ const UserForm = (props) => {
       valid = false;
     }
 
+    if (formData.aadhaarNo === '') {
+      errors.stateError = 'Aadhaar Number is required';
+      valid = false;
+    }
+
     if (formData.state === '') {
       errors.stateError = 'State is required';
       valid = false;
     }
+
 
     if (formData.religion === '') {
       errors.religionError = 'Religion is required';
@@ -121,7 +130,7 @@ const UserForm = (props) => {
     'Other',
   ];
 
-  const stateOptions = ["Andhra Pradesh",  "Arunachal Pradesh",  "Assam",  "Bihar",  "Chhattisgarh",  "Goa",  "Gujarat",  "Haryana",  "Himachal Pradesh",  "Jharkhand",  "Karnataka",  "Kerala",  "Madhya Pradesh",  "Maharashtra",  "Manipur",  "Meghalaya",  "Mizoram",  "Nagaland",  "Odisha",  "Punjab",  "Rajasthan",  "Sikkim",  "Tamil Nadu",  "Telangana",  "Tripura",  "Uttar Pradesh",  "Uttarakhand",  "West Bengal"];
+  const stateOptions = ["Andaman and Nicobar Islands","Chandigarh","Dadra & Nagar Haveli & Daman & Diu","Delhi","Jammu and Kashmir","Ladakh","Lakshadweep","Puducherry","Andhra Pradesh",  "Arunachal Pradesh",  "Assam",  "Bihar",  "Chhattisgarh",  "Goa",  "Gujarat",  "Haryana",  "Himachal Pradesh",  "Jharkhand",  "Karnataka",  "Kerala",  "Madhya Pradesh",  "Maharashtra",  "Manipur",  "Meghalaya",  "Mizoram",  "Nagaland",  "Odisha",  "Punjab",  "Rajasthan",  "Sikkim",  "Tamil Nadu",  "Telangana",  "Tripura",  "Uttar Pradesh",  "Uttarakhand",  "West Bengal"];
 
   const languageOptions = [
     
@@ -158,17 +167,21 @@ const UserForm = (props) => {
         <h1>User Information Form</h1>
         <div className='flex-container'>
           <label className="form-label">
-            Name:
+            Full Name:
             </label>
+            
             <input
-              className="form-input"
+              className="form-input name"
               type="text"
+              placeholder="Full Name"
               name="name"
-              value={formData.name}
+              value={formData.firstName}
               onChange={handleChange}
               required
             />
             {formErrors.nameError && <span className="error-message">{formErrors.nameError}</span>}
+            
+ 
          </div>
         
         <br />
@@ -245,6 +258,24 @@ const UserForm = (props) => {
         <br />
         <div className='flex-container'>
           <label className="form-label">
+            Aadhaar No.:
+            </label>
+            <input
+              className="form-input"
+              type="text"
+              //placeholder="First Name"
+              name="aadhaarNo"
+              value={formData.aadhaarNoName}
+              onChange={handleChange}
+              required
+            />
+            {formErrors.aadhaarNoError && <span className="error-message">{formErrors.aadhaarNoError}</span>}
+          
+        </div>
+
+        <br />
+        <div className='flex-container'>
+          <label className="form-label">
             State:
             </label>
             <select
@@ -264,6 +295,7 @@ const UserForm = (props) => {
             {formErrors.stateError && <span className="error-message">{formErrors.stateError}</span>}
           
         </div>
+
 
         <br />
         <div className='flex-container'>
@@ -287,6 +319,7 @@ const UserForm = (props) => {
           {formErrors.religionError && <span className="error-message">{formErrors.religionError}</span>}
         
         </div>
+
         
         <br />
 
