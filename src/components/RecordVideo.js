@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/RecordVideo.css';
 import axios from 'axios';
+import * as faceapi from 'face-api.js';
+
 
 const RecordVideo = () => {
   // Import the SpeechRecognition API
@@ -13,6 +15,7 @@ const RecordVideo = () => {
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
+  const canvasRef = useRef(null);
 
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -56,7 +59,69 @@ const RecordVideo = () => {
     setCapturedImages((prevImages) => [...prevImages, image]);
   };
 
-  const handleStartRecording = () => {
+  // const faceMyDetect = async () => {
+  //   const canvas = faceapi.createCanvasFromMedia(videoRef.current);
+  //   document.body.append(canvas);
+  
+  //   const displaySize = { width: videoRef.current.width, height: videoRef.current.height };
+  //   faceapi.matchDimensions(canvas, displaySize);
+  
+  //   setInterval(async () => {
+  //     const detections = await faceapi.detectAllFaces(videoRef.current,
+  //       new faceapi.TinyFaceDetectorOptions());
+  
+  //     const resizedDetections = faceapi.resizeResults(detections, displaySize);
+  
+  //     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  //     faceapi.draw.drawDetections(canvas, resizedDetections);
+  //   }, 1000);
+  // };
+  
+  const faceMyDetect = ()=>{
+    setInterval(async()=>{
+      const detections = await faceapi.detectAllFaces(videoRef.current,
+        new faceapi.TinyFaceDetectorOptions())
+
+      // DRAW YOU FACE IN WEBCAM
+      canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(videoRef.current)
+      faceapi.matchDimensions(canvasRef.current,{
+        width:940,
+        height:650
+      })
+
+      const resized = faceapi.resizeResults(detections,{
+         width:940,
+        height:650
+      })
+
+      faceapi.draw.drawDetections(canvasRef.current,resized)
+      
+
+
+    },100)
+  }
+
+  
+
+//   const faceMyDetect = ()=>{
+//     const canvas=faceapi.createCanvasFromMedia(videoRef)
+//     document.body.append(canvas)
+//     const displaySize={width: videoRef.width, height: videoRef.height}
+//     setInterval(async()=>{
+//       const detections = await faceapi.detectAllFaces(videoRef.current,
+//         new faceapi.TinyFaceDetectorOptions())
+// console.log(detections)
+//       // DRAW YOU FACE IN WEBCAM
+//       const resizedDetections= faceapi.resizeResults(detections, displaySize) 
+//       faceapi.draw.drawDetections(canvas.resizedDetections)
+      
+
+
+//     },100)
+//   }
+  
+
+  const handleStartRecording = async () => {
     setShowFaceMetric(true);
     setCurrentMetricIndex(0);
     chunksRef.current = [];
@@ -66,16 +131,31 @@ const RecordVideo = () => {
 
     navigator.mediaDevices
       .getUserMedia({ video: true })
-      .then((stream) => {
+      .then(async(stream) => {
         videoRef.current.srcObject = stream;
         mediaRecorderRef.current = new MediaRecorder(stream);
-        setMediaStream(stream);
+        //setMediaStream(stream);
 
         mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
         mediaRecorderRef.current.addEventListener('stop', handleSaveVideo);
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-        setIsRecordingStarted(true);
+        //mediaRecorderRef.current.start();
+
+        // Start face detection
+  await faceapi.nets.tinyFaceDetector.loadFromUri('/models'); // Load face detection model
+  
+  const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions());
+
+  if (detections.length > 0) {
+    faceMyDetect();
+    setIsRecordingStarted(true);
+    mediaRecorderRef.current.start();
+    setIsRecording(true);
+    
+  } else {
+    console.log('No face detected.');
+    // Handle case when no face is detected (e.g., show an error message)
+    alert("No face detected");
+  }
       })
       .catch((error) => {
         console.error('Error accessing camera:', error);
@@ -201,6 +281,7 @@ const RecordVideo = () => {
     <div className="record-video-container">
       <div className="video-container">
         <video ref={videoRef} autoPlay={true} className="video-preview" />
+        <canvas ref={canvasRef} className="face-canvas" />
         {!isRecordingStarted ? (
           <button className="record-button" onClick={handleStartRecording}>
             {recordedVideo ? 'Re-record' : 'Start Recording'}
